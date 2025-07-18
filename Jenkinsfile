@@ -14,6 +14,7 @@ pipeline {
         DOCKERHUB_TOKEN = credentials('DOCKERHUB_TOKEN_ARJUN')
         COMMIT_ID = "${env.GIT_COMMIT.take(6)}"
         APP_NAME = 'node-app-demo-custom-1'
+        FULL_APP_NAME = 'svc/node-app-demo-custom-1'
         APP_ENV = 'dev'
         SONAR_TOKEN = credentials('SONAR_TOKEN_ARJUN')
         BUILD_TIME = "${new Date().format('yyyy-MM-dd\'T\'HH:mm:ss')}"
@@ -145,7 +146,7 @@ pipeline {
                 powershell '''
                 Write-Host "Starting port forward..." 
                 $portForward = Start-Process -FilePath "wsl" `
-                    -ArgumentList "kubectl", "port-forward", ${env:APP_NAME}, "-n", ${env:APP_ENV}, "8080:5000" `
+                    -ArgumentList "kubectl", "port-forward", ${env:FULL_APP_NAME}, "-n", ${env:APP_ENV}, "8080:5000" `
                     -NoNewWindow -PassThru
     
                 Start-Sleep -Seconds 10
@@ -186,7 +187,7 @@ pipeline {
                 powershell '''
                 Write-Host "Starting port forward..." 
                 $portForward = Start-Process -FilePath "wsl" `
-                    -ArgumentList "kubectl", "port-forward", "svc/'''${app_name}'''", "-n", dev, "8080:5000" `
+                    -ArgumentList "kubectl", "port-forward", ${env:FULL_APP_NAME}, "-n", ${env:APP_ENV}, "8080:5000" `
                     -NoNewWindow -PassThru
     
                 Start-Sleep -Seconds 10
