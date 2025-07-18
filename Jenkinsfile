@@ -145,7 +145,7 @@ pipeline {
                 powershell '''
                 Write-Host "Starting port forward..." 
                 $portForward = Start-Process -FilePath "wsl" `
-                    -ArgumentList "kubectl", "port-forward", ${env:APP_NAME}, "-n", ${env:APP_ENV}, "8080:5000" 
+                    -ArgumentList "kubectl", "port-forward", ${env:APP_NAME}, "-n", ${env:APP_ENV}, "8080:5000" `
                     -NoNewWindow -PassThru
     
                 Start-Sleep -Seconds 10
