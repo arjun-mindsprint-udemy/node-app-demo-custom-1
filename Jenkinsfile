@@ -139,12 +139,13 @@ pipeline {
             steps {
                 script {
                 def app_name = env.APP_NAME
+                def full_app_name = "svc/${env.APP_NAME}"
                 def app_env = env.APP_ENV
 
                 powershell '''
                 Write-Host "Starting port forward..." 
                 $portForward = Start-Process -FilePath "wsl" `
-                    -ArgumentList "kubectl", "port-forward", "svc/'''${app_name}'''", "-n", dev, "8080:5000" `
+                    -ArgumentList "kubectl", "port-forward", '''$full_app_name''', "-n", dev, "8080:5000" `
                     -NoNewWindow -PassThru
     
                 Start-Sleep -Seconds 10
