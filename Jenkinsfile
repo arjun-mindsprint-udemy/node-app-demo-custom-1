@@ -158,6 +158,13 @@ pipeline {
                     Stop-Process -Id $portForward.Id -Force
                     exit 1
                 }
+
+                if (Get-Process -Id $portForward.Id -ErrorAction SilentlyContinue) {
+                    Write-Host "Stopping port-forward..."
+                    Stop-Process -Id $portForward.Id -Force
+                } else {
+                    Write-Host "Port-forward process already exited."
+                }
                 '''
                 }
             }
